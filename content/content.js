@@ -147,3 +147,18 @@ document.getElementById('verify-many-button').addEventListener('click', (event) 
         el.classList.add('xpath-verify-selected');
     }
 })
+
+
+function togglePanel() {
+    let panel = document.getElementById('xpath-generator-panel');
+    if (panel.style.display == 'block') {
+        panel.style.display = 'none';
+    } else {
+        panel.style.display= 'block';
+    }
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendMessage) => {
+    togglePanel();
+    console.log('toggleing panel');
+})
