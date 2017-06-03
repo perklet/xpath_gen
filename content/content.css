@@ -1,0 +1,51 @@
+#xpath-generator-panel {
+    background: #E0EAF1;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    opacity: 0.2;
+    min-width: 10em;
+    z-index: 10086;
+}
+
+#xpath-generator-panel:hover {
+    opacity: 1.0;
+}
+
+.xpath-button {
+    color: #fff;
+    padding: 0.2em;
+    margin: 0.2em;
+    background: #07c;
+    border-radius: 0.2em;
+    display: inline-block;
+}
+
+.xpath-list {
+    list-style: none;
+    text-indent: 0;
+    margin-left: 0.2em
+    }
+
+
+.xpath-inspecting {
+    background-color: yellow;
+    outline: 1px solid #c00;
+}
+
+.xpath-label, .xpath-value {
+    font-family: monaco, monospace;
+    display: inline-block;
+    min-width: 10em;
+}
+
+.xpath-selected {
+    background-color: #63A35C;
+    outline: 1px solid #c00;
+}
+
+.xpath-verify-selected {
+    background-color: #E1C0DC;
+    outline: 1px solid #c00;
+}

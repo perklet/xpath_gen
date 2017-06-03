@@ -1,0 +1,32 @@
+{
+    "manifest_version": 2,
+
+    "name": "Xpath Generator",
+    "description": "generate xpath expression hassle free",
+    "version": "1.0.1",
+
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["content/content.js", "lib/xpath.js"],
+            "css": ["content/content.css"],
+            "run_at": "document_end"
+        }
+    ],
+
+    "browser_action": {
+        "default_icon": "icons/icon_128.png"
+    },
+
+    "icons": {
+        "128": "icons/icon_128.png"
+    },
+
+    "permissions": [
+        "activeTab",
+        "<all_urls>",
+        "tabs",
+        "storage",
+        "unlimitedStorage"
+    ]
+}
