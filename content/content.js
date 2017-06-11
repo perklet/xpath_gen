@@ -1,30 +1,63 @@
 const inserted_panel = `
-    <div id="xpath-generator-panel">
-        <div>
-            <p class="xpath-button" id="inspect-button">Start Inspect</p>
-            <p class="xpath-button" id="verify-one-button">Verify One</p>
-            <p class="xpath-button" id="verify-many-button">Verify Many</p>
-        </div>
-        <div>
-            <ul class="xpath-list">
-                <li>Select One Element <span id="one2one-match-count"></span></li>
-                <li><span class="xpath-label">Element<span>: <span id="select-one-element-xpath" class="xpath-value">null</span></li>
-                <li><span class="xpath-label">Text<span>: <span id="select-one-text-xpath" class="xpath-value">null</span></li>
-                <li><span class="xpath-label">Link<span>: <span id="select-one-link-xpath" class="xpath-value">null</span></li>
-                <li><span class="xpath-label">Image<span>: <span id="select-one-image-xpath" class="xpath-value">null</span></li>
-            </ul>
-            <ul class="xpath-list">
-                <li>Select Many Element <span id="one2many-match-count"></span></li>
-                <li><span class="xpath-label">Element<span>: <span id="select-many-element-xpath" class="xpath-value">null</span></li>
-                <li><span class="xpath-label">Text<span>: <span id="select-many-text-xpath" class="xpath-value">null</span></li>
-                <li><span class="xpath-label">Link<span>: <span id="select-many-link-xpath" class="xpath-value">null</span></li>
-                <li><span class="xpath-label">Image<span>: <span id="select-many-image-xpath" class="xpath-value">null</span></li>
-            </ul>
-        </div>
+<div id="xpath-generator">
+    <div>
+        <b>Xpath Generator</b>
+        <i id="move-tip">drag blank area to move</i>
     </div>
+    <div>
+        <p class="xpath-button" id="inspect-button" @click="toggleInspect">{{ inspectButton }}</p>
+        <p class="xpath-button" @click="clearXpaths">Clear Xpaths</p>
+    </div>
+    <div>
+        <table class="xpath-table">
+            <tr>
+                <th>Xpath</th><th>Matches</th><th>Verify</th>
+            <tr v-for="xpath in xpaths">
+                <td class="xpath-expression">{{xpath.xpath}}</td>
+                <td class="xpath-match-count">{{xpath.matchCount}}</td>
+                <td><p class="xpath-match-count xpath-button" @click="verifyXpath(xpath.xpath)">Verify</p></td>
+            </tr>
+        </table>
+    </div>
+</div>
 `
 
 document.body.insertAdjacentHTML('beforeend', inserted_panel)
+
+let inspecting = false;
+
+let vm = new Vue({
+    el: '#xpath-generator',
+    data: {
+        inspectButton: "Start Inspect",
+        xpaths: [],
+    },
+    methods: {
+        toggleInspect: function() {
+            if (inspecting) {
+                this.inspectButton = "Start Inspect";
+                stopInspect();
+                window.inspecting = false;
+            } else {
+                this.inspectButton = "Stop Inspect";
+                startInspect();
+                window.inspecting = true;
+            }
+        },
+        clearXpaths: function() {
+            this.xpaths = [];
+        },
+        verifyXpath: function(xpath) {
+            for (let el of document.getElementsByTagName('*')) {
+                el.classList.remove('xpath-verify-selected');
+            }
+            for (let el of X.$(xpath)) {
+                el.classList.add('xpath-verify-selected');
+            }
+        }
+    }
+});
+
 
 /**
  * add a listener that will only be called once
@@ -61,44 +94,36 @@ function inspectHandler(event) {
     event.stopPropagation();
 };
 
-let inspecting = false;
-let inspectButton = document.getElementById('inspect-button');
-let one2OneXpath = null;
-let one2ManyXpath = null;
-
+/**
+ * update xpath result
+ */
 function clickHandler(event) {
     event.currentTarget.classList.remove('xpath-inspecting');
-    one2OneXpath = X.findOne2OneXpath(event.currentTarget);
-    document.getElementById('select-one-element-xpath').textContent = one2OneXpath;
-    document.getElementById('select-one-text-xpath').textContent = one2OneXpath + '/text()';
-    document.getElementById('select-one-link-xpath').textContent = one2OneXpath + '/@href';
-    document.getElementById('select-one-image-xpath').textContent = one2OneXpath + '/@src';
-    document.getElementById('one2one-match-count').textContent = 'matches: ' + X.$(one2OneXpath).length;
-    one2ManyXpath = X.findOne2ManyXpath(event.currentTarget);
-    document.getElementById('select-many-element-xpath').textContent = one2ManyXpath;
-    document.getElementById('select-many-text-xpath').textContent = one2ManyXpath + '/text()';
-    document.getElementById('select-many-link-xpath').textContent = one2ManyXpath + '/@href';
-    document.getElementById('select-many-image-xpath').textContent = one2ManyXpath + '/@src';
-    document.getElementById('one2many-match-count').textContent = 'matches: ' + X.$(one2ManyXpath).length;
+    for (let xpath of X.findAllXpaths(event.currentTarget)) {
+        let matchCount = X.$(xpath).length;
+        vm.xpaths.push({xpath: xpath, matchCount: matchCount})
+    }
     event.currentTarget.classList.add('xpath-selected');
     stopInspect();
     inspecting = false;
+    vm.inspectButton = "Start Inspect";
     event.stopImmediatePropagation();
-    inspectButton.textContent = "Start Inspect";
     event.preventDefault();
 }
 
-inspectButton.addEventListener('click', (event) => {
-    if (inspecting) {
-        inspectButton.textContent = "Start Inspect";
-        stopInspect();
-        inspecting = false;
+function togglePanel() {
+    let panel = document.getElementById('xpath-generator');
+    if (panel.style.display == 'block') {
+        panel.style.display = 'none';
     } else {
-        inspectButton.textContent = "Stop Inspect";
-        startInspect();
-        inspecting = true;
+        panel.style.display = 'block';
     }
-});
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendMessage) => {
+    togglePanel();
+    console.log('toggleing panel');
+})
 
 function startInspect() {
     for (let el of document.getElementsByTagName('*')) {
@@ -108,7 +133,7 @@ function startInspect() {
     for (let el of document.getElementsByTagName('*')) {
         el.addEventListener('mouseover', inspectHandler);
     }
-    let panel = document.getElementById('xpath-generator-panel');
+    let panel = document.getElementById('xpath-generator');
     for (let el of panel.getElementsByTagName('*')) {
         el.removeEventListener('mouseover', inspectHandler);
     }
@@ -121,44 +146,30 @@ function stopInspect() {
     }
 }
 
-document.getElementById('verify-one-button').addEventListener('click', (event) => {
-    if (!one2OneXpath) {
-        return;
-    }
-    for (let el of document.getElementsByTagName('*')) {
-        el.classList.remove('xpath-verify-selected');
-    }
+/*********************************************************************************
+ * Drag and Drop of Xpath Generator Panel
+ ********************************************************************************/
 
-    for (let el of X.$(one2OneXpath)) {
-        el.classList.add('xpath-verify-selected');
-    }
-
-})
-
-document.getElementById('verify-many-button').addEventListener('click', (event) => {
-    if (!one2ManyXpath) {
-        return;
-    }
-    for (let el of document.getElementsByTagName('*')) {
-        el.classList.remove('xpath-verify-selected');
-    }
-
-    for (let el of X.$(one2ManyXpath)) {
-        el.classList.add('xpath-verify-selected');
-    }
-})
-
-
-function togglePanel() {
-    let panel = document.getElementById('xpath-generator-panel');
-    if (panel.style.display == 'block') {
-        panel.style.display = 'none';
-    } else {
-        panel.style.display= 'block';
-    }
+function dragStart(event) {
+    let style = window.getComputedStyle(event.target, null);
+    event.dataTransfer.setData("text/plain",
+        (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY));
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendMessage) => {
-    togglePanel();
-    console.log('toggleing panel');
-})
+function dragOver(event) {
+    event.preventDefault();
+}
+
+function drop(event) {
+    let offset = event.dataTransfer.getData("text/plain").split(',');
+    let panel = document.getElementById('xpath-generator');
+    panel.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
+    panel.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+    panel.style.bottom = panel.style.right = 'auto';
+    event.preventDefault();
+}
+
+let panel = document.getElementById('xpath-generator');
+panel.addEventListener('dragstart', dragStart, false);
+document.addEventListener('dragover', dragOver, false);
+document.addEventListener('drop', drop, false);

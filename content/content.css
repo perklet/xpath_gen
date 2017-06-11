@@ -1,17 +1,16 @@
-#xpath-generator-panel {
+#xpath-generator {
+    padding: 0.5em;
     background: #E0EAF1;
     position: fixed;
-    left: 0;
-    bottom: 0;
+    right: 100px;
+    top: 100px;
     font-size: 12px;
-    opacity: 0.2;
     min-width: 10em;
+    min-height: 6em;
     z-index: 10086;
     display: none;
-}
-
-#xpath-generator-panel:hover {
-    opacity: 1.0;
+    -webkit-user-drag: element;
+    border: 1px solid #ddd;
 }
 
 .xpath-button {
@@ -23,12 +22,23 @@
     display: inline-block;
 }
 
-.xpath-list {
-    list-style: none;
-    text-indent: 0;
-    margin-left: 0.2em
-    }
+#move-tip {
+    cursor: move;
+}
 
+.xpath-table {
+    text-align: left;
+    text-indent: 0;
+    margin-left: 0.2em;
+}
+
+.xpath-table {
+  border-collapse: collapse;
+}
+
+.xpath-table td, .xpath-table th {
+  border: 1px solid #c0c0c0;
+}
 
 .xpath-inspecting {
     background-color: yellow;
