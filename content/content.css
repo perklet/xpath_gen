@@ -22,10 +22,6 @@
     display: inline-block;
 }
 
-#move-tip {
-    cursor: move;
-}
-
 .xpath-table {
     text-align: left;
     text-indent: 0;
