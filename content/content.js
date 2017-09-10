@@ -1,23 +1,32 @@
 const inserted_panel = `
 <div id="xpath-generator">
     <div>
-        <b>Xpath Generator</b>
+        <b>XPath Generator</b>
         <i id="move-tip">drag blank area to move</i>
     </div>
     <div>
         <p class="xpath-button" id="inspect-button" @click="toggleInspect">{{ inspectButton }}</p>
         <p class="xpath-button" @click="clearXpaths">Clear Xpaths</p>
+        <p class="xpath-button" @click="clearAll">Clear All</p>
     </div>
     <div>
         <table class="xpath-table">
             <tr>
-                <th>Xpath</th><th>Matches</th><th>Verify</th>
+                <th>XPath</th><th>Matches</th><th>Verify</th>
             <tr v-for="xpath in xpaths">
                 <td class="xpath-expression">{{xpath.xpath}}</td>
                 <td class="xpath-match-count">{{xpath.matchCount}}</td>
                 <td><p class="xpath-match-count xpath-button" @click="verifyXpath(xpath.xpath)">Verify</p></td>
             </tr>
         </table>
+    </div>
+    <hr/>
+    <div>
+        Manually Input Test
+    </div>
+    <div id="xpath-tester">
+        <input type="text" placeholder="input your xpath here to test" name="xpath-tester-input" v-model="xpathTesting" />
+        <input type="button" value="Test XPath" name="xpath-tester-button" @click="verifyXpath(xpathTesting)" />
     </div>
 </div>
 `
@@ -31,6 +40,7 @@ let vm = new Vue({
     data: {
         inspectButton: "Start Inspect",
         xpaths: [],
+        xpathTesting: null
     },
     methods: {
         toggleInspect: function() {
@@ -53,6 +63,14 @@ let vm = new Vue({
             }
             for (let el of X.$(xpath)) {
                 el.classList.add('xpath-verify-selected');
+            }
+        },
+        clearAll: function() {
+            this.xpaths = [];
+            for (let el of document.getElementsByTagName('*')) {
+                el.classList.remove('xpath-verify-selected');
+                el.classList.remove('xpath-selected');
+                el.classList.remove('xpath-inspecting');
             }
         }
     }
