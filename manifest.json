@@ -3,7 +3,7 @@
 
     "name": "Xpath Generator",
     "description": "generate xpath expression hassle free",
-    "version": 3.0.0",
+    "version": "3.0.0",
 
     "background": {
         "persistent": false,
