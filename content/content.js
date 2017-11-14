@@ -1,4 +1,31 @@
-const inserted_panel = `
+(function(global) {
+
+
+// if the panel has alread been inserted, just stop execution
+if (global.xpathPanelInserted) {
+  global.togglePanel();
+  return;
+} else {
+  global.xpathPanelInserted = true;
+}
+
+/**
+ * toggles the panel
+ */
+function togglePanel() {
+    let panel = document.getElementById('xpath-generator');
+    if (panel.style.display == 'block') {
+        panel.style.display = 'none';
+    } else {
+        panel.style.display = 'block';
+    }
+}
+
+global.togglePanel = togglePanel
+
+
+// the panel html template
+let panelTemplate = `
 <div id="xpath-generator">
     <div>
         <b>XPath Generator</b>
@@ -31,7 +58,7 @@ const inserted_panel = `
 </div>
 `
 
-document.body.insertAdjacentHTML('beforeend', inserted_panel)
+document.body.insertAdjacentHTML('beforeend', panelTemplate)
 
 let inspecting = false;
 
@@ -129,20 +156,6 @@ function clickHandler(event) {
     event.preventDefault();
 }
 
-function togglePanel() {
-    let panel = document.getElementById('xpath-generator');
-    if (panel.style.display == 'block') {
-        panel.style.display = 'none';
-    } else {
-        panel.style.display = 'block';
-    }
-}
-
-chrome.runtime.onMessage.addListener((message, sender, sendMessage) => {
-    togglePanel();
-    console.log('toggleing panel');
-})
-
 function startInspect() {
     for (let el of document.getElementsByTagName('*')) {
         el.classList.remove('xpath-selected');
@@ -191,3 +204,12 @@ let panel = document.getElementById('xpath-generator');
 panel.addEventListener('dragstart', dragStart, false);
 document.addEventListener('dragover', dragOver, false);
 document.addEventListener('drop', drop, false);
+})(window);
+
+/* this code should be in the content script */
+/*
+chrome.runtime.onMessage.addListener((message, sender, sendMessage) => {
+    togglePanel();
+    console.log('toggleing panel');
+})
+*/

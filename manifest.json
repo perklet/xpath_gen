@@ -3,7 +3,7 @@
 
     "name": "Xpath Generator",
     "description": "generate xpath expression hassle free",
-    "version": "3.0.0",
+    "version": "4.0.0",
 
     "background": {
         "persistent": false,
@@ -13,7 +13,6 @@
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "js": ["lib/utils.js", "lib/vue.js", "content/content.js", "lib/xpath.js"],
             "css": ["content/content.css"],
             "run_at": "document_end"
         }

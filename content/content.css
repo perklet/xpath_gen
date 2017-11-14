@@ -8,7 +8,7 @@
     min-width: 10em;
     min-height: 6em;
     z-index: 10086;
-    display: none;
+    display: block;
     -webkit-user-drag: element;
     border: 1px solid #ddd;
 }
