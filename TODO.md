@@ -1,1 +1,5 @@
 - [ ] 支持itemprop等attribute
+- [ ] 增加关闭按钮
+- [ ] 统一样式
+- [ ] when using tester, automatically scroll to the first selected element.
+- [ ] if the give xpath expression generates text valus, should display it.
