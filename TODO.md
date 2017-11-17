@@ -3,3 +3,4 @@
 - [ ] 统一样式
 - [ ] when using tester, automatically scroll to the first selected element.
 - [ ] if the give xpath expression generates text valus, should display it.
+- [x] 修复两次才能关闭的bug

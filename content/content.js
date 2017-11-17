@@ -1,11 +1,13 @@
 (function(global) {
 
 
-// if the panel has alread been inserted, just stop execution
+// if the panel has already been inserted, just stop execution
 if (global.xpathPanelInserted) {
+  console.debug('xpath panel has been injected, toggling it')
   global.togglePanel();
   return;
 } else {
+  console.debug('xpath panel not injected, continuing the execution')
   global.xpathPanelInserted = true;
 }
 
@@ -14,10 +16,12 @@ if (global.xpathPanelInserted) {
  */
 function togglePanel() {
     let panel = document.getElementById('xpath-generator');
-    if (panel.style.display == 'block') {
-        panel.style.display = 'none';
-    } else {
+    if (panel.style.display == 'none') {
+        console.debug('showing panel')
         panel.style.display = 'block';
+    } else {
+        console.debug('hidding panel')
+        panel.style.display = 'none';
     }
 }
 
@@ -31,6 +35,7 @@ let panelTemplate = `
         <b>XPath Generator</b>
         <i id="move-tip">drag blank area to move</i>
     </div>
+    <button style="display: none" class="xpath-button" @click="closeXpathPanel">❌</button>
     <div>
         <p class="xpath-button" id="inspect-button" @click="toggleInspect">{{ inspectButton }}</p>
         <p class="xpath-button" @click="clearXpaths">Clear Xpaths</p>
@@ -99,6 +104,8 @@ let vm = new Vue({
                 el.classList.remove('xpath-selected');
                 el.classList.remove('xpath-inspecting');
             }
+        },
+        closeXpathPanel: function() {
         }
     }
 });

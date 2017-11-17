@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
 
-    "name": "Xpath Generator",
-    "description": "generate xpath expression hassle free",
-    "version": "4.0.0",
+    "name": "XPath Generator",
+    "description": "generate and test xpath expressions hassle free with WYSIWYG GUI",
+    "version": "5.0.0",
 
     "background": {
         "persistent": false,
