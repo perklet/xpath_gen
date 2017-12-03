@@ -1,6 +1,40 @@
-- [ ] 支持itemprop等attribute
-- [ ] 增加关闭按钮
-- [ ] 统一样式
-- [ ] when using tester, automatically scroll to the first selected element.
-- [ ] if the give xpath expression generates text valus, should display it.
+最重要的还是保证把xpath生成做好，保证生成的就是有用的，其他都是次要的。
+
+界面
+
+- [x] 增加关闭按钮
+- [x] 统一样式
+- [x] 自动滚动到匹配的表达式的周围
 - [x] 修复两次才能关闭的bug
+- [x] 测试变成 textarea
+- [x] 测试表达式添加回列表
+- [x] 点击测试更新测试到编辑框
+- [x] 优化验证颜色
+- [x] 设置table的最大行数，过多时采用滚动
+- [x] 生成的xpath按照长度排序
+- [x] 优化移动算法
+- [x] 实现一个标题栏，类似窗口
+- [x] 表达式按照命中数量排序，生成的元素较少，暂不考虑
+- [x] 新添加的表达式放在最上面
+- [x] 编辑后的表达式可以验证并添加回去
+
+
+功能
+
+- [x] 显示xpath表达式的值
+- [ ] 使用编译过后的vue以及加密代码
+- [ ] 写一篇教程
+- [ ] 录制教学视频
+- [ ] 下载xpath的csv文件, 暂不支持
+
+
+算法
+
+- [x] 支持itemprop等attribute
+- [x] 特定xpath优化，添加text() @href 等常见属性
+- [x] 减少生成的xpath的数量
+- [ ] 点击元素同时生成所有子元素的xpath，暂不支持
+
+
+其他
+- [ ] 发布到 firefox 商店

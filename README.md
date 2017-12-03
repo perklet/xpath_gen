@@ -1,9 +1,9 @@
-# Xpath Generator
+# XPal - XPath Generator and Tester
 
-generate xpath expression hassle free.
+Generate xpath expression hassle free with WYSIWYG selection.
 
-Xpath Generator generates xpath expression from simply inspecting and clicking
-elements in the web page. Then you could choose and verify the generated
+XPal, the xpath generator, generates xpath expression from simply inspecting and
+clicking elements in the web page. Then you could choose and verify the generated
 expressioins.
 
 ## Install

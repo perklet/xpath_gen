@@ -1,20 +1,59 @@
-#xpath-generator {
-    padding: 0.5em;
-    background: #E0EAF1;
+/**
+ * basic styles and reset
+ */
+
+.xpal-panel {
     position: fixed;
     right: 100px;
     top: 100px;
-    min-width: 10em;
-    min-height: 6em;
+    min-width: 20em;
+    max-width: 50em;
     z-index: 10086;
     display: block;
-    -webkit-user-drag: element;
+    font-size: 12px;
+    background: #E0EAF1;
+    box-sizing: border-box;         /* For IE and modern versions of Chrome */
+    -moz-box-sizing: border-box;    /* For Firefox                          */
+    -webkit-box-sizing: border-box; /* For Safari                           */
+}
+
+#xpal-main {
+    padding: 0.5em;
     border: 1px solid #ddd;
     /* setting inner text style */
-    font-size: 12px;
     color: #000;
     font-family: Arial;
 }
+
+.xpal-panel div{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    color: #000;
+    background: transparent;
+    vertical-align: baseline;
+}
+
+#xpal-panel p{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+#xpal-panel a {
+    text-decoration: underline;
+    color: #fff;
+}
+
+
+/**
+ * define xpath generator specific styles
+ */
 
 .xpath-button {
     color: #fff;
@@ -25,24 +64,27 @@
     display: inline-block;
 }
 
-.xpath-table {
+
+#xpath-table {
     text-align: left;
     text-indent: 0;
     margin-left: 0.2em;
+    margin-right: 0.2em;
+    border-collapse: collapse;
+    overflow-y: auto;
 }
 
-.xpath-table {
-  border-collapse: collapse;
+#table-panel {
+    min-height: 4em;
+    max-height: 15em;
+    overflow-y: auto;
+    margin-bottom: 0.5em;
 }
 
-.xpath-table td, .xpath-table th {
+#xpath-table td, #xpath-table th {
   border: 1px solid #c0c0c0;
 }
 
-.xpath-inspecting {
-    background-color: yellow;
-    outline: 1px solid #c00;
-}
 
 .xpath-label, .xpath-value {
     font-family: monaco, monospace;
@@ -50,12 +92,82 @@
     min-width: 10em;
 }
 
-.xpath-selected {
+#xpal-value {
+    max-height: 10em;
+    overflow-y: auto;
+}
+
+#xpath-tester {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    max-width: 50em;
+}
+
+#xpal-panel textarea{
+    font-size: inherit;
+    width: 100%;
+    height: 3em;
+    box-sizing: border-box;         /* For IE and modern versions of Chrome */
+    -moz-box-sizing: border-box;    /* For Firefox                          */
+    -webkit-box-sizing: border-box; /* For Safari                           */
+}
+
+
+/**
+ * inspecting styles
+ */
+
+*[data-xpal="xpath-inspecting"] {
+    background-color: yellow;
+    outline: 1px solid #c00;
+}
+
+*[data-xpal="xpath-selected"] {
     background-color: #63A35C;
     outline: 1px solid #c00;
 }
 
-.xpath-verify-selected {
+*[data-xpal="xpath-verify-selected"] {
     background-color: #E1C0DC;
     outline: 1px solid #c00;
+}
+
+/**
+ * the title bar
+ */
+
+#xpal-title-bar {
+    background-color: #111;
+    cursor: move;
+}
+
+#xpal-title-bar::after {
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+#xpal-title-bar #xpal-title {
+    margin-left: 0.2em;
+    color: #eee;
+    float: left;
+}
+
+#xpal-title-bar #xpal-title-control {
+    display: inline-block;
+    float: right;
+}
+
+#xpal-title-control a {
+    margin: 0 0.2em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#xpal-title-bar .xpal-title-bar-button {
+    box-sizing: border-box;         /* For IE and modern versions of Chrome */
+    -moz-box-sizing: border-box;    /* For Firefox                          */
+    -webkit-box-sizing: border-box; /* For Safari                           */
+    font-size: 100%;
 }
